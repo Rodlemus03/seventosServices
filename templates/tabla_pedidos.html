@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Lista de Pedidos</h1>
+    <a href="/pedidos" class="btn btn-primary mb-3">Nuevo Pedido</a>
+    <a href="/" class="btn btn-primary mb-3">Volver al menú</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Fecha de Pedido</th>
+                <th>Fecha de Recoger</th>
+                <th>Acciones</th>  <!-- Nuevo encabezado para los botones de eliminar -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.cliente }}</td>
+                <td>{{ pedido.total }}</td>
+                <td>{{ pedido.fecha_pedido }}</td>
+                <td>{{ pedido.fecha_recoger }}</td>
+                <td>
+                    <form action="/eliminar_pedido" method="post">
+                        <input type="hidden" name="id_pedido" value="{{ pedido.id }}">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

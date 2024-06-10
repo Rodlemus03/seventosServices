@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "nombre": "Juan",
+        "apellido": "P\u00c3\u00a9rez",
+        "telefono": "123456789",
+        "direccion": "Calle Principal 123"
+    },
+    {
+        "id": 2,
+        "nombre": "Mar\u00c3\u00ada",
+        "apellido": "G\u00c3\u00b3mez",
+        "telefono": "987654321",
+        "direccion": "Avenida Central 456"
+    },
+    {
+        "id": 3,
+        "nombre": "Lisandro",
+        "apellido": "Villatoro",
+        "telefono": "12345678",
+        "direccion": "asasdasdadsasd"
+    }
+]

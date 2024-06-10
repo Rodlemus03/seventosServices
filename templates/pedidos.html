@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Nuevo Pedido</h1>
+    <form method="post" action="/registrar_pedido">
+        <div class="form-group">
+            <label for="cliente">Cliente:</label>
+            <select class="form-control" id="cliente" name="cliente" required>
+                <option value="">Seleccione un cliente</option>
+                {% for cliente in clientes %}
+                <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Carrito de compras -->
+        <div class="form-group">
+            <label for="producto">Producto:</label>
+            <select class="form-control" id="producto" name="producto" required>
+                <option value="">Seleccione un producto</option>
+                {% for producto in productos %}
+                <option value="{{ producto.id }}" data-precio="{{ producto.precio }}" data-stock="{{ producto.stock }}">{{ producto.nombre_producto }} ({{ producto.stock }} en stock)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" class="form-control" id="cantidad" name="cantidad" min="1">
+        </div>
+        <button type="button" class="btn btn-primary" id="agregar-carrito">Agregar al Carrito</button>
+        
+        <hr>
+        
+        <!-- Carrito de compras -->
+        <h3>Carrito de Compras</h3>
+        <ul id="carrito" class="list-group">
+            <!-- Los productos seleccionados se mostrarán aquí -->
+        </ul>
+        <div class="form-group mt-3">
+            <label for="fecha-recoger">Fecha de recogida:</label>
+            <input type="date" class="form-control" id="fecha-recoger" name="fecha_recoger" required>
+        </div>
+        <!-- Total del pedido -->
+        <div class="form-group mt-3">
+            <label for="total">Total:</label>
+            <input type="text" class="form-control" id="total" name="total" readonly>
+        </div>
+        
+        <!-- Campos ocultos para los detalles del pedido -->
+        {% for producto in productos %}
+            <input type="hidden" name="producto_{{ producto.id }}" value="0">
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">Guardar Pedido</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Manejar clic en el botón "Agregar al Carrito"
+    document.getElementById("agregar-carrito").addEventListener("click", function() {
+        var productoSelect = document.getElementById("producto");
+        var cantidadInput = document.getElementById("cantidad");
+        var carrito = document.getElementById("carrito");
+        var totalInput = document.getElementById("total");
+        
+        var productoId = productoSelect.value;
+        var productoNombre = productoSelect.options[productoSelect.selectedIndex].text.split(' (')[0];
+        var productoStock = parseInt(productoSelect.options[productoSelect.selectedIndex].getAttribute("data-stock"));
+        var cantidad = parseInt(cantidadInput.value);
+        var productoPrecio = parseFloat(productoSelect.options[productoSelect.selectedIndex].getAttribute("data-precio"));
+        
+        if (productoId && cantidad && productoPrecio) {
+            if (cantidad <= productoStock) {
+                // Agregar producto al carrito
+                var listItem = document.createElement("li");
+                listItem.className = "list-group-item";
+                listItem.textContent = productoNombre + " x " + cantidad;
+                carrito.appendChild(listItem);
+                
+                // Calcular total del pedido
+                var total = parseFloat(totalInput.value) || 0;
+                total += parseFloat(cantidad) * parseFloat(productoPrecio);
+                totalInput.value = total.toFixed(2);
+                
+                // Restar la cantidad del stock
+                productoSelect.options[productoSelect.selectedIndex].setAttribute("data-stock", productoStock - cantidad);
+                
+                // Actualizar la cantidad del producto en los campos ocultos
+                var hiddenInput = document.getElementsByName("producto_" + productoId)[0];
+                hiddenInput.value = parseInt(hiddenInput.value) + cantidad;
+                
+                // Limpiar campos
+                cantidadInput.value = "";
+            } else {
+                alert("No hay suficiente stock disponible");
+            }
+        } else {
+            alert("Seleccione un producto y especifique la cantidad");
+        }
+    });
+});
+</script>
+{% endblock %}

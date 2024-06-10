@@ -1,0 +1,19 @@
+[
+    {
+        "id": 2,
+        "cliente": 1,
+        "detalles_pedido": [
+            {
+                "id_producto": 1,
+                "cantidad": 45
+            },
+            {
+                "id_producto": 2,
+                "cantidad": 0
+            }
+        ],
+        "total": 112.5,
+        "fecha_pedido": "2024-06-09 18:21:01",
+        "fecha_recoger": "2024-06-12"
+    }
+]
