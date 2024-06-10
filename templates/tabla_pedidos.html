@@ -2,37 +2,52 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Lista de Pedidos</h1>
-    <a href="/pedidos" class="btn btn-primary mb-3">Nuevo Pedido</a>
-    <a href="/" class="btn btn-primary mb-3">Volver al menú</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Total</th>
-                <th>Fecha de Pedido</th>
-                <th>Fecha de Recoger</th>
-                <th>Acciones</th>  <!-- Nuevo encabezado para los botones de eliminar -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos %}
-            <tr>
-                <td>{{ pedido.id }}</td>
-                <td>{{ pedido.cliente }}</td>
-                <td>{{ pedido.total }}</td>
-                <td>{{ pedido.fecha_pedido }}</td>
-                <td>{{ pedido.fecha_recoger }}</td>
-                <td>
+    <h1 class="text-center mb-4">Lista de Pedidos</h1>
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ url_for('nuevo_pedido') }}" class="btn btn-primary">Nuevo Pedido</a>
+        <a href="/" class="btn btn-secondary">Volver al menú</a>
+    </div>
+
+    <!-- Campo de búsqueda -->
+    <input type="text" id="busqueda" class="form-control mb-3" placeholder="Buscar pedido..." onkeyup="buscarPedido()">
+
+    <div class="row" id="pedidosContainer">
+        {% for pedido in pedidos %}
+        <div class="col-md-6 col-lg-4 mb-4 pedido-card">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido ID: {{ pedido.id }}</h5>
+                    <p class="card-text"><strong>Cliente:</strong> {{ pedido.cliente }}</p>
+                    <p class="card-text"><strong>Total:</strong> {{ pedido.total }}</p>
+                    <p class="card-text"><strong>Fecha de Pedido:</strong> {{ pedido.fecha_pedido }}</p>
+                    <p class="card-text"><strong>Fecha de Recoger:</strong> {{ pedido.fecha_recoger }}</p>
                     <form action="/eliminar_pedido" method="post">
                         <input type="hidden" name="id_pedido" value="{{ pedido.id }}">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                     </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
+<script>
+function buscarPedido() {
+    var input, filtro, container, cards, card, i, txtValue;
+    input = document.getElementById("busqueda");
+    filtro = input.value.toUpperCase();
+    container = document.getElementById("pedidosContainer");
+    cards = container.getElementsByClassName("pedido-card");
+    for (i = 0; i < cards.length; i++) {
+        card = cards[i];
+        txtValue = card.textContent || card.innerText;
+        if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+    }
+}
+</script>
 {% endblock %}

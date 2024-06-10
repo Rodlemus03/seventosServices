@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Menú</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </head>
-    
-    
-    <body>
-        <div class="container mt-5">
-            <h1 class="text-center mb-4">Bienvenido a Seventos</h1>
-            <div class="list-group">
-                <a href="/clientes" class="list-group-item list-group-item-action">Clientes</a>
-                <a href="/inventario" class="list-group-item list-group-item-action">Inventario</a>
-                <a href="/tabla_pedidos" class="list-group-item list-group-item-action">Pedidos</a>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .list-group-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        .text-center {
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 2.5rem;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Bienvenido a Seventos</h1>
+        <div class="list-group">
+            <a href="/clientes" class="list-group-item list-group-item-action">Clientes</a>
+            <a href="/inventario" class="list-group-item list-group-item-action">Inventario</a>
+            <a href="/tabla_pedidos" class="list-group-item list-group-item-action">Pedidos</a>
         </div>
-    </body>
-    
+    </div>
+</body>
 </html>

@@ -2,38 +2,51 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Inventario</h1>
-    <a href="{{ url_for('nuevo_producto') }}" class="btn btn-primary mb-3">Nuevo Producto</a>
-    <a href="/" class="btn btn-primary mb-3">Volver al menu</a>
+    <h1 class="text-center mb-4">Inventario</h1>
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ url_for('nuevo_producto') }}" class="btn btn-primary">Nuevo Producto</a>
+        <a href="/" class="btn btn-secondary">Volver al menú</a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre Producto</th>
-                <th>Marca</th>
-                <th>Valor</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in inventario %}
-            <tr>
-                <td>{{ producto.id }}</td>
-                <td>{{ producto.nombre_producto }}</td>
-                <td>{{ producto.marca }}</td>
-                <td>{{ producto.valor }}</td>
-                <td>{{ producto.precio }}</td>
-                <td>{{ producto.stock }}</td>
-                <td>
+    <!-- Campo de búsqueda -->
+    <input type="text" id="busqueda" class="form-control mb-3" placeholder="Buscar producto..." onkeyup="buscarProducto()">
+
+    <div class="row" id="inventarioContainer">
+        {% for producto in inventario %}
+        <div class="col-md-6 col-lg-4 mb-4 producto-card">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre_producto }}</h5>
+                    <p class="card-text"><strong>ID:</strong> {{ producto.id }}</p>
+                    <p class="card-text"><strong>Marca:</strong> {{ producto.marca }}</p>
+                    <p class="card-text"><strong>Valor:</strong> {{ producto.valor }}</p>
+                    <p class="card-text"><strong>Precio:</strong> {{ producto.precio }}</p>
+                    <p class="card-text"><strong>Stock:</strong> {{ producto.stock }}</p>
                     <a href="{{ url_for('editar_producto', id=producto.id) }}" class="btn btn-sm btn-warning">Editar</a>
                     <a href="{{ url_for('borrar_producto', id=producto.id) }}" class="btn btn-sm btn-danger">Borrar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
+<script>
+function buscarProducto() {
+    var input, filtro, container, cards, card, i, txtValue;
+    input = document.getElementById("busqueda");
+    filtro = input.value.toUpperCase();
+    container = document.getElementById("inventarioContainer");
+    cards = container.getElementsByClassName("producto-card");
+    for (i = 0; i < cards.length; i++) {
+        card = cards[i];
+        txtValue = card.textContent || card.innerText;
+        if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+    }
+}
+</script>
 {% endblock %}
